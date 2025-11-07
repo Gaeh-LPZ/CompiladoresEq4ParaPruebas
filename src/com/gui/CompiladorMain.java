@@ -155,6 +155,9 @@ public class CompiladorMain extends JFrame {
                 case "analizador_sintactico":
                     openAnalyzerTab("Analizador Sintáctico LR", new AnalizadorLRPanel());
                     break;
+                case "analizador_sintactico_proyecto":
+                    openAnalyzerTab("Analizador Sintáctico LR - Proyecto Final", new AnalizadorProyectoFinalPanel());
+                    break;
 
                 default:
                     String content = dataProvider.getAlgorithmDescription(cmd);
@@ -265,6 +268,12 @@ class ReusableMenuBar extends JMenuBar {
         parser.setActionCommand("analizador_sintactico");
         parser.addActionListener(handler);
         sint.add(parser);
+        
+        sint.addSeparator(); 
+        JMenuItem parserProyecto = new JMenuItem("Analizador Sintáctico LR - Proyecto Final");
+        parserProyecto.setActionCommand("analizador_sintactico_proyecto");
+        parserProyecto.addActionListener(handler);
+        sint.add(parserProyecto);
         add(sint);
 
         JMenu sem = new JMenu("Analizador semántico");

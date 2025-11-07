@@ -1,0 +1,125 @@
+Program CompilationUnit PackageDecl ImportDecls ImportDecl ImportStarOpt TypeDecls TypeDecl Modifiers Modifier ClassDecl InterfaceDecl EnumDecl TypeParamsOpt TypeParams TypeParamList TypeParam ExtendsTypeListOpt ExtendsOpt ImplementsOpt ClassBody ClassBodyDecls ClassBodyDecl MemberDecl FieldDecl VariableDeclarators VariableDeclarator VarDimOpt VarInitOpt VariableInitializer ArrayInitializer ArrayInitListOpt ArrayInitList MethodDecl MethodHeader TypeOrVoid ThrowsOpt MethodBody ConstructorDecl ConstructorBody FormalParamListOpt FormalParamList FormalParam ParamModifiersOpt Block BlockStatementsOpt BlockStatements BlockStatement LocalVarDeclStatement Statement IDENTIFICADOR_OPT ExpressionOpt CatchClausesOpt CatchClauses CatchClause CatchFormalParam FinallyOpt ForInitOpt ForInit LocalVarDecl ForCondOpt ForUpdateOpt ExpressionList ForEachVar ExpressionStatement StatementExpression Assignment ConditionalExpression ConditionalOrExpression ConditionalAndExpression InclusiveOrExpression ExclusiveOrExpression AndExpression EqualityExpression RelationalExpression ShiftExpression AdditiveExpression MultiplicativeExpression UnaryExpression PostfixExpression PostfixOpOpt PostfixOp Primary SuperMemberOpt ClassInstanceCreationExpression ClassBodyOpt ArgumentListOpt ArgumentList LeftHandSide ExpressionName FieldAccess ArrayAccess VariableDeclaratorId VarDimsOpt Type TypeDimsOpt PrimitiveType ClassOrInterfaceType TypeArgsOpt TypeArgs TypeArgList QualifiedName QualifiedNameRest QualifiedNameList EnumBody EnumConstantsOpt EnumConstants EnumConstant EnumConstArgsOpt EnumBodyDeclsOpt EnumBodyDecls InterfaceBody InterfaceMemberDeclsOpt InterfaceMemberDecls InterfaceMemberDecl InterfaceMethodDecl MethodBodyOpt ArrayCreatorRest ArrayDimsOpt VariableDeclaratorInit EOF_TOKEN
+PACKAGE IMPORT CLASS INTERFACE ENUM PUBLIC PRIVATE PROTECTED ABSTRACT STATIC FINAL SYNCHRONIZED NATIVE TRANSIENT VOLATILE EXTENDS IMPLEMENTS VOID THROWS CATCH FINALLY TRUE FALSE NULL NEW THIS SUPER INSTANCEOF IF ELSE SWITCH CASE DEFAULT WHILE DO FOR BREAK CONTINUE RETURN THROW TRY BOOLEAN BYTE SHORT INT LONG CHAR FLOAT DOUBLE IDENTIFICADOR LITERAL_ENTERA LITERAL_FLOTANTE LITERAL_CADENA PUNTO_Y_COMA PUNTO ASTERISK COMA MENOR MAYOR ASIGNACION LLAVE_IZQ LLAVE_DER CORCHETE_IZQ CORCHETE_DER PARENTESIS_IZQ PARENTESIS_DER OR AND IGUAL DIFERENTE MENOR_QUE MAYOR_QUE MENOR_IGUAL MAYOR_IGUAL LSHIFT RSHIFT URSHIFT SUMA RESTA MULTIPLICACION DIVISION MOD NOT TILDE QUESTION COLON BITAND BITXOR EOF
+P' -> Program $
+Program -> CompilationUnit EOF
+CompilationUnit -> PackageDecl ImportDecls TypeDecls | ImportDecls TypeDecls
+PackageDecl -> PACKAGE QualifiedName PUNTO_Y_COMA | ε
+ImportDecls -> ImportDecl ImportDecls | ε
+ImportDecl -> IMPORT QualifiedName ImportStarOpt PUNTO_Y_COMA
+ImportStarOpt -> PUNTO ASTERISK | ε
+TypeDecls -> TypeDecl TypeDecls | ε
+TypeDecl -> ClassDecl | InterfaceDecl | EnumDecl | PUNTO_Y_COMA
+Modifiers -> Modifier Modifiers | ε
+Modifier -> PUBLIC | PRIVATE | PROTECTED | ABSTRACT | STATIC | FINAL | SYNCHRONIZED | NATIVE | TRANSIENT | VOLATILE
+ClassDecl -> Modifiers CLASS IDENTIFICADOR TypeParamsOpt ExtendsOpt ImplementsOpt ClassBody
+InterfaceDecl -> Modifiers INTERFACE IDENTIFICADOR TypeParamsOpt ExtendsOpt InterfaceBody
+EnumDecl -> Modifiers ENUM IDENTIFICADOR EnumBody
+TypeParamsOpt -> TypeParams | ε
+TypeParams -> MENOR TypeParamList MAYOR
+TypeParamList -> TypeParam | TypeParam COMA TypeParamList
+TypeParam -> IDENTIFICADOR ExtendsTypeListOpt
+ExtendsTypeListOpt -> EXTENDS TypeList | ε
+ExtendsOpt -> EXTENDS Type | ε
+ImplementsOpt -> IMPLEMENTS TypeList | ε
+ClassBody -> LLAVE_IZQ ClassBodyDecls LLAVE_DER
+ClassBodyDecls -> ClassBodyDecl ClassBodyDecls | ε
+ClassBodyDecl -> MemberDecl | ConstructorDecl | STATIC Block | Block | PUNTO_Y_COMA
+MemberDecl -> FieldDecl | MethodDecl | ClassDecl | InterfaceDecl | EnumDecl
+FieldDecl -> Modifiers Type VariableDeclarators PUNTO_Y_COMA
+VariableDeclarators -> VariableDeclarator | VariableDeclarator COMA VariableDeclarators
+VariableDeclarator -> IDENTIFICADOR VarDimOpt VarInitOpt
+VarDimOpt -> CORCHETE_IZQ CORCHETE_DER VarDimOpt | ε
+VarInitOpt -> ASIGNACION VariableInitializer | ε
+VariableInitializer -> Expression | ArrayInitializer
+ArrayInitializer -> LLAVE_IZQ ArrayInitListOpt LLAVE_DER
+ArrayInitListOpt -> ArrayInitList | ε
+ArrayInitList -> VariableInitializer | VariableInitializer COMA ArrayInitList
+MethodDecl -> Modifiers MethodHeader MethodBody
+MethodHeader -> TypeOrVoid IDENTIFICADOR PARENTESIS_IZQ FormalParamListOpt PARENTESIS_DER ThrowsOpt
+TypeOrVoid -> Type | VOID
+ThrowsOpt -> THROWS QualifiedNameList | ε
+MethodBody -> Block | PUNTO_Y_COMA
+ConstructorDecl -> Modifiers IDENTIFICADOR PARENTESIS_IZQ FormalParamListOpt PARENTESIS_DER ThrowsOpt ConstructorBody
+ConstructorBody -> Block
+FormalParamListOpt -> FormalParamList | ε
+FormalParamList -> FormalParam | FormalParam COMA FormalParamList
+FormalParam -> ParamModifiersOpt Type IDENTIFICADOR | ParamModifiersOpt Type ELLIPSIS IDENTIFICADOR
+ParamModifiersOpt -> Modifier ParamModifiersOpt | ε
+Block -> LLAVE_IZQ BlockStatementsOpt LLAVE_DER
+BlockStatementsOpt -> BlockStatements | ε
+BlockStatements -> BlockStatement BlockStatements | BlockStatement
+BlockStatement -> LocalVarDeclStatement | Statement
+LocalVarDeclStatement -> Modifiers Type VariableDeclarators PUNTO_Y_COMA
+Statement -> Block | IF PARENTESIS_IZQ Expression PARENTESIS_DER Statement ELSE Statement | IF PARENTESIS_IZQ Expression PARENTESIS_DER Statement | SWITCH PARENTESIS_IZQ Expression PARENTESIS_DER Block | WHILE PARENTESIS_IZQ Expression PARENTESIS_DER Statement | DO Statement WHILE PARENTESIS_IZQ Expression PARENTESIS_DER PUNTO_Y_COMA | FOR PARENTESIS_IZQ ForInitOpt PUNTO_Y_COMA ForCondOpt PUNTO_Y_COMA ForUpdateOpt PARENTESIS_DER Statement | FOR PARENTESIS_IZQ ForEachVar COLON Expression PARENTESIS_DER Statement | BREAK IDENTIFICADOR_OPT PUNTO_Y_COMA | CONTINUE IDENTIFICADOR_OPT PUNTO_Y_COMA | RETURN ExpressionOpt PUNTO_Y_COMA | THROW Expression PUNTO_Y_COMA | TRY Block CatchClausesOpt FinallyOpt | ExpressionStatement | PUNTO_Y_COMA
+IDENTIFICADOR_OPT -> IDENTIFICADOR | ε
+ExpressionOpt -> Expression | ε
+CatchClausesOpt -> CatchClauses | ε
+CatchClauses -> CatchClause CatchClauses | CatchClause
+CatchClause -> CATCH PARENTESIS_IZQ CatchFormalParam PARENTESIS_DER Block
+CatchFormalParam -> Type VariableDeclaratorId
+FinallyOpt -> FINALLY Block | ε
+ForInitOpt -> ForInit | ε
+ForInit -> LocalVarDecl | ExpressionList
+LocalVarDecl -> Modifiers Type VariableDeclarators
+ForCondOpt -> Expression | ε
+ForUpdateOpt -> ExpressionList | ε
+ExpressionList -> Expression | Expression COMA ExpressionList
+ForEachVar -> ParamModifiersOpt Type IDENTIFICADOR
+ExpressionStatement -> StatementExpression PUNTO_Y_COMA
+StatementExpression -> Assignment | MethodInvocation | ClassInstanceCreationExpression
+Assignment -> LeftHandSide ASIGNACION Expression | ConditionalExpression
+ConditionalExpression -> ConditionalOrExpression | ConditionalOrExpression QUESTION Expression COLON ConditionalExpression
+ConditionalOrExpression -> ConditionalAndExpression | ConditionalOrExpression OR ConditionalAndExpression
+ConditionalAndExpression -> InclusiveOrExpression | ConditionalAndExpression AND InclusiveOrExpression
+InclusiveOrExpression -> ExclusiveOrExpression | InclusiveOrExpression PUNTO ExclusiveOrExpression
+ExclusiveOrExpression -> AndExpression | ExclusiveOrExpression BITXOR AndExpression
+AndExpression -> EqualityExpression | AndExpression BITAND EqualityExpression
+EqualityExpression -> RelationalExpression | EqualityExpression IGUAL RelationalExpression | EqualityExpression DIFERENTE RelationalExpression
+RelationalExpression -> ShiftExpression | RelationalExpression MENOR_QUE ShiftExpression | RelationalExpression MAYOR_QUE ShiftExpression | RelationalExpression MENOR_IGUAL ShiftExpression | RelationalExpression MAYOR_IGUAL ShiftExpression | RelationalExpression INSTANCEOF Type
+ShiftExpression -> AdditiveExpression | ShiftExpression LSHIFT AdditiveExpression | ShiftExpression RSHIFT AdditiveExpression | ShiftExpression URSHIFT AdditiveExpression
+AdditiveExpression -> MultiplicativeExpression | AdditiveExpression SUMA MultiplicativeExpression | AdditiveExpression RESTA MultiplicativeExpression
+MultiplicativeExpression -> UnaryExpression | MultiplicativeExpression MULTIPLICACION UnaryExpression | MultiplicativeExpression DIVISION UnaryExpression | MultiplicativeExpression MOD UnaryExpression
+UnaryExpression -> SUMA UnaryExpression | RESTA UnaryExpression | NOT UnaryExpression | TILDE UnaryExpression | PostfixExpression
+PostfixExpression -> Primary PostfixOpOpt
+PostfixOpOpt -> PostfixOp PostfixOpOpt | ε
+PostfixOp -> PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER | PUNTO IDENTIFICADOR | CORCHETE_IZQ Expression CORCHETE_DER
+Primary -> LITERAL_ENTERA | LITERAL_FLOTANTE | LITERAL_CADENA | TRUE | FALSE | NULL | PARENTESIS_IZQ Expression PARENTESIS_DER | THIS | SUPER SuperMemberOpt | IDENTIFICADOR | QualifiedName PUNTO CLASS | NEW Type ArrayCreatorRest | NEW ClassOrInterfaceType PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER ClassBodyOpt
+SuperMemberOpt -> PUNTO IDENTIFICADOR PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER | ε
+ClassInstanceCreationExpression -> NEW ClassOrInterfaceType PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER ClassBodyOpt
+ClassBodyOpt -> ClassBody | ε
+ArgumentListOpt -> ArgumentList | ε
+ArgumentList -> Expression | Expression COMA ArgumentList
+LeftHandSide -> ExpressionName | FieldAccess | ArrayAccess
+ExpressionName -> QualifiedName | IDENTIFICADOR
+FieldAccess -> Primary PUNTO IDENTIFICADOR
+ArrayAccess -> Primary CORCHETE_IZQ Expression CORCHETE_DER
+VariableDeclaratorId -> IDENTIFICADOR VarDimsOpt
+VarDimsOpt -> CORCHETE_IZQ CORCHETE_DER VarDimsOpt | ε
+Type -> PrimitiveType TypeDimsOpt | ClassOrInterfaceType TypeDimsOpt
+TypeDimsOpt -> CORCHETE_IZQ CORCHETE_DER TypeDimsOpt | ε
+PrimitiveType -> BOOLEAN | BYTE | SHORT | INT | LONG | CHAR | FLOAT | DOUBLE
+ClassOrInterfaceType -> QualifiedName TypeArgsOpt
+TypeArgsOpt -> TypeArgs | ε
+TypeArgs -> MENOR TypeArgList MAYOR
+TypeArgList -> Type | Type COMA TypeArgList
+QualifiedName -> IDENTIFICADOR QualifiedNameRest
+QualifiedNameRest -> PUNTO IDENTIFICADOR QualifiedNameRest | ε
+QualifiedNameList -> QualifiedName | QualifiedName COMA QualifiedNameList
+ThrowsOpt -> THROWS QualifiedNameList | ε
+EnumBody -> LLAVE_IZQ EnumConstantsOpt EnumBodyDeclsOpt LLAVE_DER
+EnumConstantsOpt -> EnumConstants | ε
+EnumConstants -> EnumConstant | EnumConstant COMA EnumConstants
+EnumConstant -> IDENTIFICADOR EnumConstArgsOpt ClassBodyOpt
+EnumConstArgsOpt -> PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER | ε
+EnumBodyDeclsOpt -> COMA EnumBodyDecls | EnumBodyDecls | ε
+EnumBodyDecls -> ClassBodyDecl ClassBodyDecls
+InterfaceBody -> LLAVE_IZQ InterfaceMemberDeclsOpt LLAVE_DER
+InterfaceMemberDeclsOpt -> InterfaceMemberDecls | ε
+InterfaceMemberDecls -> InterfaceMemberDecl InterfaceMemberDecls | InterfaceMemberDecl
+InterfaceMemberDecl -> Modifiers InterfaceMethodDecl | FieldDecl | ClassDecl | InterfaceDecl
+InterfaceMethodDecl -> TypeOrVoid IDENTIFICADOR PARENTESIS_IZQ FormalParamListOpt PARENTESIS_DER ThrowsOpt MethodBodyOpt
+MethodBodyOpt -> MethodBody | ε
+ArrayCreatorRest -> CORCHETE_IZQ Expression CORCHETE_DER ArrayDimsOpt | CORCHETE_IZQ CORCHETE_DER ArrayDimsOpt
+ArrayDimsOpt -> CORCHETE_IZQ CORCHETE_DER ArrayDimsOpt | ε
+VariableDeclaratorInit -> ASIGNACION VariableInitializer | ε
+EOF_TOKEN -> EOF
