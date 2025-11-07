@@ -283,77 +283,162 @@ public class AnalizadorProyectoFinalPanel extends JPanel {
     }
 
     private String mapearTokenATerminal(Token t) {
-        switch (t.tipo) {
-            // Palabras reservadas
-        case PUBLIC: return "public";
-        case CLASS: return "class";
-        case STATIC: return "static";
-        case VOID: return "void";
-        case INT: return "int";
-        case FLOAT: return "float";
-        case MAIN: return "main";
-        case IF: return "if";
-        case ELSE: return "else";
-        case SWITCH: return "switch";
-        case CASE: return "case";
-        case DEFAULT: return "default";
-        case WHILE: return "while";
-        case DO: return "do";
-        case FOR: return "for";
-        case BREAK: return "break";
-        case SYSTEM: return "System";
-        case OUT: return "out";
-        case PRINTLN: return "println";
+    switch (t.tipo) {
+        // ============================================
+        // PALABRAS RESERVADAS DE JAVA
+        // ============================================
+        case PACKAGE: return "PACKAGE";
+        case IMPORT: return "IMPORT";
+        case CLASS: return "CLASS";
+        case INTERFACE: return "INTERFACE";
+        case ENUM: return "ENUM";
+        case PUBLIC: return "PUBLIC";
+        case PRIVATE: return "PRIVATE";
+        case PROTECTED: return "PROTECTED";
+        case ABSTRACT: return "ABSTRACT";
+        case STATIC: return "STATIC";
+        case FINAL: return "FINAL";
+        case SYNCHRONIZED: return "SYNCHRONIZED";
+        case NATIVE: return "NATIVE";
+        case TRANSIENT: return "TRANSIENT";
+        case VOLATILE: return "VOLATILE";
+        case EXTENDS: return "EXTENDS";
+        case IMPLEMENTS: return "IMPLEMENTS";
+        case VOID: return "VOID";
+        case THROWS: return "THROWS";
+        case CATCH: return "CATCH";
+        case FINALLY: return "FINALLY";
+        case TRUE: return "TRUE";
+        case FALSE: return "FALSE";
+        case NULL: return "NULL";
+        case NEW: return "NEW";
+        case THIS: return "THIS";
+        case SUPER: return "SUPER";
+        case INSTANCEOF: return "INSTANCEOF";
+        case IF: return "IF";
+        case ELSE: return "ELSE";
+        case SWITCH: return "SWITCH";
+        case CASE: return "CASE";
+        case DEFAULT: return "DEFAULT";
+        case WHILE: return "WHILE";
+        case DO: return "DO";
+        case FOR: return "FOR";
+        case BREAK: return "BREAK";
+        case CONTINUE: return "CONTINUE";
+        case RETURN: return "RETURN";
+        case THROW: return "THROW";
+        case TRY: return "TRY";
+        case ASSERT: return "ASSERT";
+        
+        // Tipos primitivos
+        case BOOLEAN: return "BOOLEAN";
+        case BYTE: return "BYTE";
+        case SHORT: return "SHORT";
+        case INT: return "INT";
+        case LONG: return "LONG";
+        case CHAR: return "CHAR";
+        case FLOAT: return "FLOAT";
+        case DOUBLE: return "DOUBLE";
 
-        // Identificadores y literales
-        case IDENTIFICADOR: return "id";
-        case LITERAL_ENTERA:
-        case LITERAL_FLOTANTE: return "num";
-        case LITERAL_CADENA:
-        case CADENA: return "literalCad";
+        // ============================================
+        // ⚠️ TOKENS ESPECIALES → MAPEAR A IDENTIFICADOR
+        // ============================================
+        // Estos NO son keywords de Java, son nombres de clases/métodos
+        case MAIN:
+        case CADENA:
+        case SYSTEM:
+        case OUT:
+        case PRINTLN:
+            return "IDENTIFICADOR";
 
-        // Operadores relacionales
-        case MENOR_QUE: return "<";
-        case MAYOR_QUE: return ">";
-        case MENOR_IGUAL: return "<=";
-        case MAYOR_IGUAL: return ">=";
-        case IGUAL: return "==";
-        case DIFERENTE: return "!=";
+        // ============================================
+        // IDENTIFICADORES Y LITERALES
+        // ============================================
+        case IDENTIFICADOR: return "IDENTIFICADOR";
+        case LITERAL_ENTERA: return "LITERAL_ENTERA";
+        case LITERAL_FLOTANTE: return "LITERAL_FLOTANTE";
+        case LITERAL_CADENA: return "LITERAL_CADENA";
 
-        // Operadores lógicos
-        case AND: return "&&";
-        case OR: return "||";
+        // ============================================
+        // OPERADORES ARITMÉTICOS
+        // ============================================
+        case SUMA: return "SUMA";
+        case RESTA: return "RESTA";
+        case MULTIPLICACION: 
+        case ASTERISK: return "ASTERISK";
+        case DIVISION: return "DIVISION";
+        case MOD: return "MOD";
+        
+        // ============================================
+        // OPERADORES DE ASIGNACIÓN Y COMPARACIÓN
+        // ============================================
+        case ASIGNACION: return "ASIGNACION";
+        case IGUAL: return "IGUAL";
+        case DIFERENTE: return "DIFERENTE";
+        case MENOR_QUE: return "MENOR_QUE";
+        case MAYOR_QUE: return "MAYOR_QUE";
+        case MENOR_IGUAL: return "MENOR_IGUAL";
+        case MAYOR_IGUAL: return "MAYOR_IGUAL";
+        
+        // ============================================
+        // OPERADORES LÓGICOS
+        // ============================================
+        case AND: return "AND";
+        case OR: return "OR";
+        case NOT: return "NOT";
+        
+        // ============================================
+        // OPERADORES BIT A BIT
+        // ============================================
+        case BITAND: return "BITAND";
+        case BITOR: return "BITOR";
+        case BITXOR: return "BITXOR";
+        case TILDE: return "TILDE";
+        
+        // ============================================
+        // OPERADORES DE DESPLAZAMIENTO
+        // ============================================
+        case LSHIFT: return "LSHIFT";
+        case RSHIFT: return "RSHIFT";
+        case URSHIFT: return "URSHIFT";
 
-        // Operadores aritméticos
-        case SUMA: return "+";
-        case RESTA: return "-";
-        case MULTIPLICACION: return "*";
-        case DIVISION: return "/";
-        case MOD: return "%";
+        // ============================================
+        // DELIMITADORES
+        // ============================================
+        case CORCHETE_IZQ: return "CORCHETE_IZQ";
+        case CORCHETE_DER: return "CORCHETE_DER";
+        case PARENTESIS_IZQ: return "PARENTESIS_IZQ";
+        case PARENTESIS_DER: return "PARENTESIS_DER";
+        case LLAVE_IZQ: return "LLAVE_IZQ";
+        case LLAVE_DER: return "LLAVE_DER";
+        case PUNTO_Y_COMA: return "PUNTO_Y_COMA";
+        case COMA: return "COMA";
+        case PUNTO: return "PUNTO";
+        case DOS_PUNTOS:
+        case COLON: return "COLON";
+        case QUESTION: return "QUESTION";
+        case MENOR: return "MENOR";
+        case MAYOR: return "MAYOR";
+        case ELLIPSIS: return "ELLIPSIS";
+        case ARROBA: return "ARROBA";
 
-        // Asignación
-        case ASIGNACION: return "=";
-
-        // Delimitadores
-        case PARENTESIS_IZQ: return "(";
-        case PARENTESIS_DER: return ")";
-        case LLAVE_IZQ: return "{";
-        case LLAVE_DER: return "}";
-        case CORCHETE_IZQ: return "[";
-        case CORCHETE_DER: return "]";
-        case PUNTO_Y_COMA: return ";";
-        case COMA: return ",";
-        case PUNTO: return ".";
-        case DOS_PUNTOS: return ":";
-
-        // Ignorar
-        case EOF:
+        // ============================================
+        // TOKENS ESPECIALES
+        // ============================================
+        case EOF: return "EOF";
+        
+        // ============================================
+        // TOKENS A IGNORAR
+        // ============================================
         case DESCONOCIDO:
         case ERROR_DE_CADENA:
+        case COMILLA:
             return null;
 
         default:
-            return null;
-        }
+            // Fallback: devolver el nombre del enum
+            return t.tipo.name();
     }
+}
+
 }

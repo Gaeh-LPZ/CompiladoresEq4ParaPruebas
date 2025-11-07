@@ -76,7 +76,7 @@ public class Lexer {
                 break;
 
             case '*': 
-                aniadirToken(tipoToken.MULTIPLICACION);
+                aniadirToken(tipoToken.ASTERISK);  // CAMBIADO (era MULTIPLICACION, pero sirve para ambos)
                 break;
 
             case '%':
@@ -87,7 +87,7 @@ public class Lexer {
                 if (match('&')){
                     aniadirToken(tipoToken.AND); //operador logico &&
                 } else {
-                    aniadirToken(tipoToken.DESCONOCIDO); // & no es valido
+                    aniadirToken(tipoToken.BITAND); //  CORREGIDO (era DESCONOCIDO)
                 }
                 break;
 
@@ -95,13 +95,13 @@ public class Lexer {
                 if (match('|')){
                     aniadirToken(tipoToken.OR); // operador logico ||
                 } else {
-                    aniadirToken(tipoToken.DESCONOCIDO);
+                    aniadirToken(tipoToken.BITOR); //  CORREGIDO (era DESCONOCIDO)
                 }
                 break;
 
             // operadores que podrían ser de uno o dos caracteres
             case '!': 
-                aniadirToken(match('=') ? tipoToken.DIFERENTE : tipoToken.DESCONOCIDO); // '!' solo no es válido
+                aniadirToken(match('=') ? tipoToken.DIFERENTE : tipoToken.NOT);  // ✅ CORREGIDO (era DESCONOCIDO)
                 break;
 
             case '=': 
@@ -143,6 +143,23 @@ public class Lexer {
                 literal();
                 break;
 
+
+            case '?':
+                aniadirToken(tipoToken.QUESTION);
+                break;
+
+            case '~':
+                aniadirToken(tipoToken.TILDE);
+                break;
+
+            case '^':
+                aniadirToken(tipoToken.BITXOR);
+                break;
+
+            case '@':
+                aniadirToken(tipoToken.ARROBA);
+                break;
+
             default:
                 if (esDigito(c)) {
                     numero();
@@ -153,6 +170,7 @@ public class Lexer {
                     aniadirToken(tipoToken.DESCONOCIDO);
                 }
                 break;
+            
         }
     }
     
@@ -178,9 +196,9 @@ public class Lexer {
             avanzar(); // consumir '.'
             while (esDigito(mirar()))
                 avanzar();
-            aniadirToken(tipoToken.FLOAT);
+            aniadirToken(tipoToken.LITERAL_FLOTANTE);  //  CORREGIDO
         } else {
-            aniadirToken(tipoToken.INT);
+            aniadirToken(tipoToken.LITERAL_ENTERA);     //  CORREGIDO
         }
     }
 
@@ -205,7 +223,7 @@ public class Lexer {
         // Si llegamos aquí es porque sí encontramos la comilla de cierre en la misma línea
         avanzar();
         String valor = codigo.substring(inicio + 1, actual - 1);
-        aniadirToken(tipoToken.CADENA, valor);
+        aniadirToken(tipoToken.LITERAL_CADENA, valor);
     }
 
     private char avanzar(){
