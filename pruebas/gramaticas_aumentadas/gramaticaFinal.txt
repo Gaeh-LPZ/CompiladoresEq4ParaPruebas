@@ -50,7 +50,7 @@ BlockStatementsOpt -> BlockStatements | ε
 BlockStatements -> BlockStatement BlockStatements | BlockStatement
 BlockStatement -> LocalVarDeclStatement | Statement
 LocalVarDeclStatement -> Modifiers Type VariableDeclarators PUNTO_Y_COMA
-Statement -> Block | IF PARENTESIS_IZQ Expression PARENTESIS_DER Statement ELSE Statement | IF PARENTESIS_IZQ Expression PARENTESIS_DER Statement | SWITCH PARENTESIS_IZQ Expression PARENTESIS_DER Block | WHILE PARENTESIS_IZQ Expression PARENTESIS_DER Statement | DO Statement WHILE PARENTESIS_IZQ Expression PARENTESIS_DER PUNTO_Y_COMA | FOR PARENTESIS_IZQ ForInitOpt PUNTO_Y_COMA ForCondOpt PUNTO_Y_COMA ForUpdateOpt PARENTESIS_DER Statement | FOR PARENTESIS_IZQ ForEachVar COLON Expression PARENTESIS_DER Statement | BREAK IDENTIFICADOR_OPT PUNTO_Y_COMA | CONTINUE IDENTIFICADOR_OPT PUNTO_Y_COMA | RETURN ExpressionOpt PUNTO_Y_COMA | THROW Expression PUNTO_Y_COMA | TRY Block CatchClausesOpt FinallyOpt | ExpressionStatement | PUNTO_Y_COMA
+Statement -> Block | IF PARENTESIS_IZQ Expression PARENTESIS_DER Statement ELSE Statement | IF PARENTESIS_IZQ Expression PARENTESIS_DER Statement | SWITCH PARENTESIS_IZQ Expression PARENTESIS_DER Block | WHILE PARENTESIS_IZQ Expression PARENTESIS_DER Statement | DO Statement WHILE PARENTESIS_IZQ Expression PARENTESIS_DER PUNTO_Y_COMA | FOR PARENTESIS_IZQ ForInitOpt PUNTO_Y_COMA ForCondOpt PUNTO_Y_COMA ForUpdateOpt PARENTESIS_DER Statement | BREAK IDENTIFICADOR_OPT PUNTO_Y_COMA | CONTINUE IDENTIFICADOR_OPT PUNTO_Y_COMA | RETURN ExpressionOpt PUNTO_Y_COMA | THROW Expression PUNTO_Y_COMA | TRY Block CatchClausesOpt FinallyOpt | ExpressionStatement | PUNTO_Y_COMA
 IDENTIFICADOR_OPT -> IDENTIFICADOR | ε
 ExpressionOpt -> Expression | ε
 CatchClausesOpt -> CatchClauses | ε
@@ -91,6 +91,7 @@ ArgumentListOpt -> ArgumentList | ε
 ArgumentList -> Expression | Expression COMA ArgumentList
 LeftHandSide -> ExpressionName | FieldAccess | ArrayAccess
 ExpressionName -> IDENTIFICADOR
+ExpressionName -> ExpressionName PUNTO IDENTIFICADOR
 FieldAccess -> Primary PUNTO IDENTIFICADOR
 ArrayAccess -> Primary CORCHETE_IZQ Expression CORCHETE_DER
 VariableDeclaratorId -> IDENTIFICADOR VarDimsOpt
@@ -123,6 +124,6 @@ ArrayCreatorRest -> CORCHETE_IZQ Expression CORCHETE_DER ArrayDimsOpt | CORCHETE
 ArrayDimsOpt -> CORCHETE_IZQ CORCHETE_DER ArrayDimsOpt | ε
 VariableDeclaratorInit -> ASIGNACION VariableInitializer | ε
 TypeList -> Type | Type COMA TypeList
-MethodInvocation -> Primary PUNTO IDENTIFICADOR PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER | IDENTIFICADOR PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER | SUPER PUNTO IDENTIFICADOR PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER
+MethodInvocation -> Primary PUNTO IDENTIFICADOR PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER | IDENTIFICADOR PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER | SUPER PUNTO IDENTIFICADOR PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER | ExpressionName PUNTO IDENTIFICADOR PARENTESIS_IZQ ArgumentListOpt PARENTESIS_DER
 Expression -> Assignment
 EOF_TOKEN -> EOF
