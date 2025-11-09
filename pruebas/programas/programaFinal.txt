@@ -1,11 +1,11 @@
-package ejemplo;
+Package ejemplo;
 
 import java.util.List;
 import java.io.*;
 
 public class HolaMundo extends BaseClass implements Runnable {
 
-    private int contador = 0;
+    private int contador = 0 + 5;
 
     public HolaMundo() {
         contador = 10;
